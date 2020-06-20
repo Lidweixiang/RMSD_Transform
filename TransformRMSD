@@ -6,18 +6,22 @@ from RMSD_Transform import structure_alignment
 from RMSD_Transform import get_rmsd_value
 from RMSD_Transform import change_pdb_to_rmsd
 
+
 def StructureAlignment(args):
     changed_pdb = args.changed_pdb
     unchanged_pdb = args.unchanged_pdb
     select_para = args.selected_parameter
     log_file = args.log_file
     out_pdb = args.output_pdb
-    structure_alignment.structure_alignment(changed_pdb, unchanged_pdb, select_para, log_file, out_pdb)
+    structure_alignment.structure_alignment(
+        changed_pdb, unchanged_pdb, select_para, log_file, out_pdb)
+
 
 def GetRmsdValue(args):
     result_log = args.log_file
     rmsd_json = args.rmsd_json
     rmsd_result = get_rmsd_value.get_rmsd_value(result_log, rmsd_json)
+
 
 def ChangePdbAll(args):
     rmsd_json = args.rmsd_json
@@ -27,7 +31,13 @@ def ChangePdbAll(args):
     default_pdb_path = args.default_pdb
     rmsd_pdb_path = args.rmsd_pdb
     plus_value = args.plus_value
-    change_pdb_to_rmsd.change_pdb_all(rmsd_dic, times, default_pdb_path, rmsd_pdb_path, plus_value)
+    change_pdb_to_rmsd.change_pdb_all(
+        rmsd_dic,
+        times,
+        default_pdb_path,
+        rmsd_pdb_path,
+        plus_value)
+
 
 def BfactorToRmsdAllWorkflow(args):
     default_pdb = args.default_pdb
@@ -39,9 +49,12 @@ def BfactorToRmsdAllWorkflow(args):
     times = args.times
     plus_value = args.plus_value
     out_pdb = args.output_pdb
-    structure_alignment.structure_alignment(default_pdb, unchanged_pdb, select_para, log_file, out_pdb)
+    structure_alignment.structure_alignment(
+        default_pdb, unchanged_pdb, select_para, log_file, out_pdb)
     rmsd_dic = get_rmsd_value.get_rmsd_value(log_file, rmsd_json)
-    change_pdb_to_rmsd.change_pdb_all(rmsd_dic, times, default_pdb, rmsd_pdb, plus_value)
+    change_pdb_to_rmsd.change_pdb_all(
+        rmsd_dic, times, default_pdb, rmsd_pdb, plus_value)
+
 
 class ToRmsdSuite:
     def __init__(self, argv):
@@ -54,7 +67,7 @@ class ToRmsdSuite:
        alignment       This command is for structure alignment
        getrmsd         This command is for getting RMSD value
        changepdb       This command is for changing pdb B-factor to RMSD
-       bfactor_to_rmsd This command is for b-factor to RMSD include all workflow 
+       bfactor_to_rmsd This command is for b-factor to RMSD include all workflow
        ''')
         parser.add_argument('command', help='Subcommand to run')
         self.argv = argv
@@ -68,17 +81,39 @@ class ToRmsdSuite:
     def alignment(self):
         parser = argparse.ArgumentParser(
             description='structure alignment')
-        parser.add_argument("-c", "--changed_pdb", help="-c /../changed.pdb: The PDB will be changed"
-                                                        " from b-factor to RMSD", required=True)
-        parser.add_argument("-u", "--unchanged_pdb", help="-u /../unchanged.pdb: The PDB "
-                                                          "will stay the same", required=True)
-        parser.add_argument("-s", "--selected_parameter", help="-s selected element names,"
-                                                               "default:CA[C]", default="CA[C]", type=str)
-        parser.add_argument("-o", "--output_pdb", help="-o /../output.pdb: The PDB will only be changed "
-                                                       "x、y、z location from unchanged_pdb,default:null",
-                            default="", type=str)
-        parser.add_argument("-l", "--log_file", help="-l /../result.log: The path of result log,"
-                                                     "default:result.log", default="result.log", type=str)
+        parser.add_argument(
+            "-c",
+            "--changed_pdb",
+            help="-c /../changed.pdb: The PDB will be changed"
+            " from b-factor to RMSD",
+            required=True)
+        parser.add_argument(
+            "-u",
+            "--unchanged_pdb",
+            help="-u /../unchanged.pdb: The PDB "
+            "will stay the same",
+            required=True)
+        parser.add_argument(
+            "-s",
+            "--selected_parameter",
+            help="-s selected element names,"
+            "default:CA[C]",
+            default="CA[C]",
+            type=str)
+        parser.add_argument(
+            "-o",
+            "--output_pdb",
+            help="-o /../output.pdb: The PDB will only be changed "
+            "x、y、z location from unchanged_pdb,default:null",
+            default="",
+            type=str)
+        parser.add_argument(
+            "-l",
+            "--log_file",
+            help="-l /../result.log: The path of result log,"
+            "default:result.log",
+            default="result.log",
+            type=str)
         parser.set_defaults(func=StructureAlignment)
         args = parser.parse_args(self.argv[1:])
         args.func(args)
@@ -86,10 +121,18 @@ class ToRmsdSuite:
     def getrmsd(self):
         parser = argparse.ArgumentParser(
             description='get RMSD value')
-        parser.add_argument("-l", "--log_file", help="-l /../result.log: The path of result log,"
-                                                     "default:result.log", default="result.log")
-        parser.add_argument("-j", "--rmsd_json", help="-j /../rmsd.json: The path of rmsd json,"
-                                                      "default:rmsd.json", default="rmsd.json")
+        parser.add_argument(
+            "-l",
+            "--log_file",
+            help="-l /../result.log: The path of result log,"
+            "default:result.log",
+            default="result.log")
+        parser.add_argument(
+            "-j",
+            "--rmsd_json",
+            help="-j /../rmsd.json: The path of rmsd json,"
+            "default:rmsd.json",
+            default="rmsd.json")
         parser.set_defaults(func=GetRmsdValue)
         args = parser.parse_args(self.argv[1:])
         args.func(args)
@@ -97,15 +140,33 @@ class ToRmsdSuite:
     def changepdb(self):
         parser = argparse.ArgumentParser(
             description='change pdb B-factor to RMSD')
-        parser.add_argument("-j", "--rmsd_json", help="-j /../rmsd.json: The path of rmsd json,default:rmsd.json",
-                            default="rmsd.json")
-        parser.add_argument("-t", "--times", help="-t times: The times you want to mutiple RMSD,default:40",
-                            default=40, type=int)
-        parser.add_argument("-p", "--plus_value", help="-p plus_value:plus value to max RMSD,default:10",
-                            default=10, type=int)
-        parser.add_argument("-d", "--default_pdb", help="-d /../default.pdb: The initial PDB", required=True)
-        parser.add_argument("-f", "--rmsd_pdb", help="-f /../rmsd.pdb: The path of final rmsd pdb,default:rmsd.pdb",
-                            default="rmsd.pdb")
+        parser.add_argument(
+            "-j",
+            "--rmsd_json",
+            help="-j /../rmsd.json: The path of rmsd json,default:rmsd.json",
+            default="rmsd.json")
+        parser.add_argument(
+            "-t",
+            "--times",
+            help="-t times: The times you want to mutiple RMSD,default:40",
+            default=40,
+            type=int)
+        parser.add_argument(
+            "-p",
+            "--plus_value",
+            help="-p plus_value:plus value to max RMSD,default:10",
+            default=10,
+            type=int)
+        parser.add_argument(
+            "-d",
+            "--default_pdb",
+            help="-d /../default.pdb: The initial PDB",
+            required=True)
+        parser.add_argument(
+            "-f",
+            "--rmsd_pdb",
+            help="-f /../rmsd.pdb: The path of final rmsd pdb,default:rmsd.pdb",
+            default="rmsd.pdb")
         parser.set_defaults(func=ChangePdbAll)
         args = parser.parse_args(self.argv[1:])
         args.func(args)
@@ -113,29 +174,69 @@ class ToRmsdSuite:
     def bfactor_to_rmsd(self):
         parser = argparse.ArgumentParser(
             description='b-factor to RMSD include all workflow')
-        parser.add_argument("-t", "--times", help="-t times: The times you want to mutiple RMSD,default:40",
-                            default=40, type=int)
-        parser.add_argument("-p", "--plus_value", help="-p plus_value:plus value to max RMSD,default:10",
-                            default=10, type=int)
-        parser.add_argument("-d", "--default_pdb", help="-d /../default.pdb: The initial PDB", required=True)
-        parser.add_argument("-f", "--rmsd_pdb", help="-f /../rmsd.pdb: The path of final rmsd pdb,default:rmsd.pdb",
-                            default="rmsd.pdb")
-        parser.add_argument("-u", "--unchanged_pdb", help="-u /../unchanged.pdb: The PDB "
-                                                          "will stay the same", required=True)
-        parser.add_argument("-s", "--selected_parameter", help="-s selected element names,"
-                                                               "default:CA[C]", default="CA[C]", type=str)
-        parser.add_argument("-o", "--output_pdb", help="-o /../output.pdb: The PDB will only be changed "
-                                                       "x、y、z location from unchanged_pdb,default:null",
-                            default="", type=str)
-        parser.add_argument("-l", "--log_file", help="-l /../result.log: The path of result log,"
-                                                     "default:result.log", default="result.log", type=str)
-        parser.add_argument("-j", "--rmsd_json", help="-j /../rmsd.json: The path of rmsd json,"
-                                                      "default:rmsd.json", default="rmsd.json")
+        parser.add_argument(
+            "-t",
+            "--times",
+            help="-t times: The times you want to mutiple RMSD,default:40",
+            default=40,
+            type=int)
+        parser.add_argument(
+            "-p",
+            "--plus_value",
+            help="-p plus_value:plus value to max RMSD,default:10",
+            default=10,
+            type=int)
+        parser.add_argument(
+            "-d",
+            "--default_pdb",
+            help="-d /../default.pdb: The initial PDB",
+            required=True)
+        parser.add_argument(
+            "-f",
+            "--rmsd_pdb",
+            help="-f /../rmsd.pdb: The path of final rmsd pdb,default:rmsd.pdb",
+            default="rmsd.pdb")
+        parser.add_argument(
+            "-u",
+            "--unchanged_pdb",
+            help="-u /../unchanged.pdb: The PDB "
+            "will stay the same",
+            required=True)
+        parser.add_argument(
+            "-s",
+            "--selected_parameter",
+            help="-s selected element names,"
+            "default:CA[C]",
+            default="CA[C]",
+            type=str)
+        parser.add_argument(
+            "-o",
+            "--output_pdb",
+            help="-o /../output.pdb: The PDB will only be changed "
+            "x、y、z location from unchanged_pdb,default:null",
+            default="",
+            type=str)
+        parser.add_argument(
+            "-l",
+            "--log_file",
+            help="-l /../result.log: The path of result log,"
+            "default:result.log",
+            default="result.log",
+            type=str)
+        parser.add_argument(
+            "-j",
+            "--rmsd_json",
+            help="-j /../rmsd.json: The path of rmsd json,"
+            "default:rmsd.json",
+            default="rmsd.json")
         parser.set_defaults(func=BfactorToRmsdAllWorkflow)
         args = parser.parse_args(self.argv[1:])
         args.func(args)
 
+
 def main(argv):
     ToRmsdSuite(argv)
+
+
 if __name__ == '__main__':
-    main(argv = sys.argv[1:])
+    main(argv=sys.argv[1:])
