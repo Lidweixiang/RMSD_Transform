@@ -21,7 +21,7 @@
  bfactor_to_rmsd
 
  #Example:
- TransformRMSD alignment -h ：for help
+ TransformRMSD alignment -h ：for help \n
  TransformRMSD bfactor_to_rmsd -d default.pdb -f rmsd.pdb -u unchanged_pdb -l result.log -j rmsd_json  ：You can get the pdb file changed to rmsd in rmsd.pdb, for other parameters please use -h for details
 
  If a bug occurs during use, please contact me at 17626048270 without hesitation.  ---Lid
