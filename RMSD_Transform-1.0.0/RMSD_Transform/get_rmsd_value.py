@@ -11,7 +11,8 @@ def get_rmsd_value(result_log,rmsd_json):
                 chunk_info = line.split("|")
                 if (chunk_info[1].strip() and chunk_info[2].strip() and
                         chunk_info[3].strip() and chunk_info[1].strip() != "Query"):
-                    aa_number = "_".join(chunk_info[1].strip().split(":")[1].split())
+                    aa_info = chunk_info[1].strip().split(":")
+                    aa_number = aa_info[0][-1] + "_" + "".join(aa_info[1].split())
                     aa_rmsd = chunk_info[2].strip().split()[1][0:4]
                     rmsd_dic[aa_number] = aa_rmsd
     with open(rmsd_json,"w") as rmsd_js:

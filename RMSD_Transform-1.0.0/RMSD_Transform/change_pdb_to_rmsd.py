@@ -14,14 +14,14 @@ def change_rmsd_dic_range(rmsd_dic,times):
     rmsd_mutiple_dic = collections.OrderedDict()
     for aa_number in rmsd_dic.keys():
         rmsd_value = float(rmsd_dic[aa_number])
-        rmsd_mutiple_dic[aa_number] = int(times) * rmsd_value
+        rmsd_mutiple_dic[aa_number] = round(int(times) * rmsd_value, 2)
     print("Multiple a number to RMSD...")
     return rmsd_mutiple_dic
 
 def get_max_rmsd(rmsd_dic,times,plus_value = 10):
     rmsd_list = [float(i)*int(times) for i in list(rmsd_dic.values())]
     rmsd_max = max(rmsd_list)
-    rmsd_max_plus_value = rmsd_max + plus_value
+    rmsd_max_plus_value = round(rmsd_max + plus_value, 2)
     print("Add a number to Max RMSD...")
     return rmsd_max_plus_value
 
@@ -29,16 +29,29 @@ def change_pdb(default_pdb_path, rmsd_mutiple_dic, rmsd_max_plus_value,rmsd_pdb_
     with open(rmsd_pdb_path,"w") as rpp:
         with open(default_pdb_path) as dpp:
             for line in dpp:
-                if (line[0:4] == "ATOM" and len(line.split()) > 10):
-                    line_info = line.split()
-                    aa_number = line_info[3] + "_" + line_info[5]
+                if (line[0:4] == "ATOM" and len(line.split()) > 6):
+                    line_info = line.strip().split()
+                    if len(line_info[4]) == 1:
+                        aa_number = line_info[4] + "_" + line_info[3] + line_info[5]
+                    else:
+                        aa_number = line_info[4][0] + "_" + line_info[3] + line_info[4][1:]
                     line_all = line.split(" ")
                     bfactor_value = line_info[-2]
                     bfactor_loc = get_value_list_location(bfactor_value, line_all)
-                    if aa_number in rmsd_mutiple_dic.keys():
-                        line_all[bfactor_loc] = str(rmsd_mutiple_dic[aa_number])
+                    if len(bfactor_value) > 6:
+                        if aa_number in rmsd_mutiple_dic.keys():
+                            line_all[bfactor_loc] = line_all[bfactor_loc][0:-6] + \
+                                                    (6-len(str(rmsd_mutiple_dic[aa_number]))
+                                                     )*" " + str(rmsd_mutiple_dic[aa_number])
+                        else:
+                            line_all[bfactor_loc] = line_all[bfactor_loc][0:-6] + \
+                                                    (6-len(str(rmsd_max_plus_value))
+                                                     )*" " + str(rmsd_max_plus_value)
                     else:
-                        line_all[bfactor_loc] = str(rmsd_max_plus_value)
+                        if aa_number in rmsd_mutiple_dic.keys():
+                            pass
+                        else:
+                            pass
                     new_line = " ".join(line_all)
                     rpp.write(new_line)
                 elif line[0:6] == "ANISOU":
