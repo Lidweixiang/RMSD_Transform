@@ -16,7 +16,7 @@ def change_rmsd_dic_range(rmsd_dic, times):
     rmsd_mutiple_dic = collections.OrderedDict()
     for aa_number in rmsd_dic.keys():
         rmsd_value = float(rmsd_dic[aa_number])
-        rmsd_mutiple_dic[aa_number] = round(int(times) * rmsd_value, 2)
+        rmsd_mutiple_dic[aa_number] = '%.2f' % (int(times) * rmsd_value)
     print("Multiple a number to RMSD...")
     return rmsd_mutiple_dic
 
@@ -24,7 +24,7 @@ def change_rmsd_dic_range(rmsd_dic, times):
 def get_max_rmsd(rmsd_dic, times, plus_value=10):
     rmsd_list = [float(i) * int(times) for i in list(rmsd_dic.values())]
     rmsd_max = max(rmsd_list)
-    rmsd_max_plus_value = round(rmsd_max + plus_value, 2)
+    rmsd_max_plus_value = '%.2f' % (rmsd_max + plus_value)
     print("Add a number to Max RMSD...")
     return rmsd_max_plus_value
 
@@ -39,16 +39,16 @@ def change_pdb(
             for line in dpp:
                 if (line[0:4] == "ATOM" and len(line.split()) > 6):
                     aa_number = line[21] + "_" + \
-                        line[17:20] + line[22:26].strip()
+                                line[17:20] + line[22:26].strip()
                     if aa_number in rmsd_mutiple_dic.keys():
                         rmsd_len = len(str(rmsd_mutiple_dic[aa_number]))
                         mid_line = (6 - rmsd_len) * " " + \
-                            str(rmsd_mutiple_dic[aa_number])
+                                   str(rmsd_mutiple_dic[aa_number])
                         new_line = line[0:60] + mid_line + line[66:]
                     else:
                         rmsd_len = len(str(rmsd_max_plus_value))
                         mid_line = (6 - rmsd_len) * " " + \
-                            str(rmsd_max_plus_value)
+                                   str(rmsd_max_plus_value)
                         new_line = line[0:60] + mid_line + line[66:]
                     rpp.write(new_line)
                 elif line[0:6] == "ANISOU":
