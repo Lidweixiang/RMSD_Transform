@@ -36,6 +36,8 @@ def change_pdb(
         rmsd_pdb_path):
     with open(rmsd_pdb_path, "w") as rpp:
         with open(default_pdb_path) as dpp:
+            max_rmsd = []
+            changed_rmsd = []
             for line in dpp:
                 if (line[0:4] == "ATOM" and len(line.split()) > 6):
                     aa_number = line[21] + "_" + \
@@ -45,17 +47,21 @@ def change_pdb(
                         mid_line = (6 - rmsd_len) * " " + \
                                    str(rmsd_mutiple_dic[aa_number])
                         new_line = line[0:60] + mid_line + line[66:]
+                        changed_rmsd.append(aa_number)
                     else:
                         rmsd_len = len(str(rmsd_max_plus_value))
                         mid_line = (6 - rmsd_len) * " " + \
                                    str(rmsd_max_plus_value)
                         new_line = line[0:60] + mid_line + line[66:]
+                        max_rmsd.append(aa_number)
                     rpp.write(new_line)
                 elif line[0:6] == "ANISOU":
                     pass
                 else:
                     rpp.write(line)
     print("change pdb B-factor to RMSD...")
+    print("set the max rmsd plus a value aa number is " + str(len(set(max_rmsd))))
+    print("set the mutiple rmsd aa number is " + str(len(set(changed_rmsd))))
     print("Finish Mission !")
 
 

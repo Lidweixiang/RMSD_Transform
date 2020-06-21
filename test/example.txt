@@ -1,0 +1,50 @@
+TransformRMSD alignment -h
+usage: TransformRMSD [-h] -c CHANGED_PDB -u UNCHANGED_PDB
+                     [-s SELECTED_PARAMETER] [-o OUTPUT_PDB] [-l LOG_FILE]
+
+structure alignment
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -c CHANGED_PDB, --changed_pdb CHANGED_PDB
+                        -c /../changed.pdb: The PDB will be changed from
+                        b-factor to RMSD
+  -u UNCHANGED_PDB, --unchanged_pdb UNCHANGED_PDB
+                        -u /../unchanged.pdb: The PDB will stay the same
+  -s SELECTED_PARAMETER, --selected_parameter SELECTED_PARAMETER
+                        -s selected element names,default:CA[C]
+  -o OUTPUT_PDB, --output_pdb OUTPUT_PDB
+                        -o /../output.pdb: The PDB will only be changed x、y、z
+                        location from unchanged_pdb,default:null
+  -l LOG_FILE, --log_file LOG_FILE
+                        -l /../result.log: The path of result
+                        log,default:result.log
+Maybe you need input some parameters，such as -h to get help
+
+[Lth@spgpu Desktop]$ TransformRMSD alignment -c 5gxj.pdb -u 5lc0.pdb -s CA[C] -o change_loc.pdb -l result.log
+Use CCP4i superpose to run structure alignment...
+Run：superpose 5gxj.pdb -s CA[C] 5lc0.pdb -o change_loc.pdb >result.log 2>&1
+Finish structure alignment!
+
+[Lth@spgpu Desktop]$ TransformRMSD getrmsd -l result.log -j result.json
+Get RMSD !
+Save RMSD to result.json
+
+[Lth@spgpu Desktop]$ TransformRMSD changepdb -j result.json -t 35 -p 10 -d 5gxj.pdb -f 5gxj_rmsd.pdb
+Multiple a number to RMSD...
+Add a number to Max RMSD...
+change pdb B-factor to RMSD...
+Finish Mission !
+
+[Lth@spgpu Desktop]$ TransformRMSD bfactor_to_rmsd -t 35 -p 10 -d 5gxj.pdb -f 5gxj_rmsd_btr.pdb -u 5lc0.pdb -s CA[C] -o change_loc_btr.pdb -l result_btr.log -j rmsd_btr.json  
+Use CCP4i superpose to run structure alignment...
+Run：superpose 5gxj.pdb -s CA[C] 5lc0.pdb -o change_loc_btr.pdb >result_btr.log 2>&1
+Finish structure alignment!
+Get RMSD !
+Save RMSD to rmsd_btr.json
+Multiple a number to RMSD...
+Add a number to Max RMSD...
+change pdb B-factor to RMSD...
+Finish Mission !
+
+

@@ -1,0 +1,17 @@
+[Lth@spgpu demo]$ TransformRMSD bfactor_to_rmsd -t 35 -p 10 -d 2yol.pdb -f 2yol_rmsd_btr.pdb -u 3l6p.pdb -s CA[C] -o change_loc_btr.pdb -l result_btr.log -j rmsd_btr.json
+Use CCP4i superpose to run structure alignment...
+Run：superpose 2yol.pdb -s CA[C] 3l6p.pdb -o change_loc_btr.pdb >result_btr.log 2>&1
+Finish structure alignment!
+Get RMSD !
+Save RMSD to rmsd_btr.json
+Multiple a number to RMSD...
+Add a number to Max RMSD...
+change pdb B-factor to RMSD...
+Finish Mission !
+[Lth@spgpu demo]$ 
+
+pymol
+spectrum b, blue_white_red, minimum=0, maximum=140
+show cartoon
+cartoon putty
+spectrum b, blue_green_magenta, minimum=0, maximum=140
