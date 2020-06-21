@@ -29,7 +29,7 @@
  
  bfactor_to_rmsd
 
-# Example:
+# Examples:
  
  TransformRMSD alignment -h ：for help
  
