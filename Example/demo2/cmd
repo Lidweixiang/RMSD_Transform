@@ -15,3 +15,11 @@ spectrum b, blue_white_red, minimum=0, maximum=140
 show cartoon
 cartoon putty
 spectrum b, blue_green_magenta, minimum=0, maximum=140
+
+~/Desktop/Lid/帮他人处理的数据/JXY/RMSD_Transform_Final_Version/RMSD_Transform-master » ./TransformRMSD changepdb -j rmsd_btr.json -t 35 -p 10 -d 2yol.pdb -f 2yol_change_rmsd.pdb
+Multiple a number to RMSD...
+Add a number to Max RMSD...
+change pdb B-factor to RMSD...
+set the max rmsd plus a value aa number is 48
+set the mutiple rmsd aa number is 164
+Finish Mission !
