@@ -220,7 +220,7 @@ set the mutiple rmsd aa number is 164
 Finish Mission !
 
 
-F.bfactor_to_rmsd
+E.bfactor_to_rmsd
 
 [Lth@spgpu demo]$ TransformRMSD bfactor_to_rmsd -t 35 -p 10 -d 2yol.pdb -f 2yol_rmsd_btr.pdb -u 3l6p.pdb -s CA[C] -o change_loc_btr.pdb -l result_btr.log -j rmsd_btr.json
 
