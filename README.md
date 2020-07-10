@@ -36,5 +36,5 @@
  TransformRMSD bfactor_to_rmsd -d default.pdb -f rmsd.pdb -u unchanged_pdb -l result.log -j rmsd_json  ：You can get the pdb file changed to rmsd in rmsd.pdb, for other parameters please use -h for details
 
 # Contact me
-If a bug occurs during use, please contact me at 17626048270 without hesitation.  ---Lid
+If a bug occurs during use, please contact me at 18829352615lid@gmail.com without hesitation.  ---Lid
 
